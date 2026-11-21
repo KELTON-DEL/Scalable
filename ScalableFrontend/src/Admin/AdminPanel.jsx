@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./AdminPanel.css";
 import ClientVerification from "./ClientVerification";
-import SupportInbox from "./Supportinbox";
+import SupportInbox from "./SupportInbox";
 
 const API_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5000";
