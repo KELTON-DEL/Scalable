@@ -1,0 +1,264 @@
+.support-inbox {
+  color: #e8f1eb;
+  width: 100%;
+}
+
+.support-inbox-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.support-inbox-heading h2 {
+  margin: 0 0 6px;
+}
+
+.support-inbox-heading p {
+  margin: 0;
+  color: #9eb4a6;
+}
+
+.support-inbox-heading button {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 16px;
+  background: #c9a44b;
+  color: #17291f;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.support-inbox-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 330px) minmax(0, 1fr);
+  min-height: 560px;
+  border: 1px solid #294638;
+  border-radius: 13px;
+  overflow: hidden;
+  background: #10271f;
+}
+
+.support-conversation-list {
+  border-right: 1px solid #294638;
+  overflow-y: auto;
+}
+
+.support-conversation-list h3 {
+  margin: 0;
+  padding: 18px;
+  border-bottom: 1px solid #294638;
+  font-size: 15px;
+}
+
+.support-conversation {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  padding: 14px;
+  border: 0;
+  border-bottom: 1px solid #294638;
+  background: transparent;
+  color: #e8f1eb;
+  text-align: left;
+  cursor: pointer;
+}
+
+.support-conversation:hover,
+.support-conversation.selected {
+  background: #1b3a2c;
+}
+
+.support-client-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #087b50;
+  font-weight: 700;
+}
+
+.support-conversation-details {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.support-conversation-details strong,
+.support-conversation-details small,
+.support-last-message {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.support-conversation-details small,
+.support-last-message {
+  color: #9eb4a6;
+  font-size: 11px;
+}
+
+.support-unread {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 50%;
+  background: #c9a44b;
+  color: #17291f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.support-admin-chat {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.support-admin-chat-header {
+  padding: 17px;
+  border-bottom: 1px solid #294638;
+}
+
+.support-admin-chat-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.support-admin-chat-header small {
+  color: #9eb4a6;
+}
+
+.support-admin-messages {
+  flex: 1;
+  min-height: 350px;
+  max-height: 470px;
+  overflow-y: auto;
+  padding: 18px;
+}
+
+.support-admin-message {
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.support-admin-message.client-sent {
+  justify-content: flex-start;
+}
+
+.support-admin-message.admin-sent {
+  justify-content: flex-end;
+}
+
+.support-admin-bubble {
+  max-width: 78%;
+  padding: 11px 14px;
+  border-radius: 11px;
+  background: #203c30;
+  overflow-wrap: anywhere;
+}
+
+.support-admin-message.admin-sent .support-admin-bubble {
+  background: #087b50;
+}
+
+.support-admin-bubble small,
+.support-admin-bubble time {
+  display: block;
+  color: #d0dfd6;
+  font-size: 10px;
+}
+
+.support-admin-bubble p {
+  margin: 7px 0;
+  line-height: 1.5;
+}
+
+.support-admin-reply {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-top: 1px solid #294638;
+}
+
+.support-admin-reply input {
+  min-width: 0;
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #365446;
+  border-radius: 8px;
+  outline: none;
+  background: #193328;
+  color: white;
+}
+
+.support-admin-reply button {
+  padding: 0 17px;
+  border: 0;
+  border-radius: 8px;
+  background: #c9a44b;
+  color: #17291f;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.support-admin-reply button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.support-select-prompt {
+  margin: auto;
+  padding: 25px;
+  text-align: center;
+  color: #9eb4a6;
+}
+
+.support-select-prompt span {
+  font-size: 35px;
+}
+
+.support-select-prompt h3 {
+  color: #e8f1eb;
+}
+
+.support-empty,
+.support-inbox-error {
+  padding: 15px;
+  color: #9eb4a6;
+}
+
+.support-inbox-error {
+  color: #ffaaa5;
+}
+
+@media (max-width: 750px) {
+  .support-inbox-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .support-conversation-list {
+    max-height: 240px;
+    border-right: 0;
+    border-bottom: 1px solid #294638;
+  }
+
+  .support-admin-messages {
+    min-height: 300px;
+  }
+
+  .support-inbox-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
