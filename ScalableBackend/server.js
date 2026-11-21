@@ -15,8 +15,8 @@ const app = express();
 const allowedOrigins = [
   process.env.CLIENT_URL,
   process.env.ADMIN_URL,
-  "http://localhost:5173",
-  "http://localhost:5174"
+  "https://scalable-qvu2.onrender.com",
+  "https://scalable-3add.onrender.com"
 ].filter(Boolean);
 
 // CORS must come before all API routes
