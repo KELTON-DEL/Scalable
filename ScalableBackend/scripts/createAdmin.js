@@ -26,22 +26,25 @@ console.log("Existing administrators:", existingAdmins);
 
     const firstName = await rl.question("First name: ");
     const lastName = await rl.question("Last name: ");
+    const username = (await rl.question("Username: ")).trim();
     const email = (await rl.question("Email: ")).trim().toLowerCase();
     const phoneNumber = (await rl.question("Phone number: ")).trim();
     const country = await rl.question("Country: ");
     const password = await rl.question("Create password: ");
 
-    if (!firstName || !lastName || !email || !phoneNumber || !country) {
-      throw new Error("All fields are required.");
-    }
+   if (!firstName || !lastName || !username || !email || !phoneNumber || !country) {
+  throw new Error("All fields are required.");
+}
 
     if (password.length < 8) {
       throw new Error("Password must contain at least 8 characters.");
     }
 
-    const existingUser = await User.findOne({
-      $or: [{ email }, { phoneNumber }]
-    });
+   const existingUser = await User.findOne({
+  $or: [
+    { email },{ phoneNumber },{ username }
+  ]
+});
 
     if (existingUser) {
       throw new Error("This email or phone number is already registered.");
@@ -52,6 +55,7 @@ console.log("Existing administrators:", existingAdmins);
     const admin = await User.create({
       firstName,
       lastName,
+        username,
       email,
       phoneNumber,
       country,
