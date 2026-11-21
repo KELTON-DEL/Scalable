@@ -5,7 +5,7 @@ import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import "./Auth.css";
 import logo from "../Images/logo.png"
-const API_URL = import.meta.env.VITE_API_URL || "https://scalable-backend-h5su.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || " http://localhost:5000";
 
 export default function Auth() {
   const [activeTab, setActiveTab] = useState("signup");

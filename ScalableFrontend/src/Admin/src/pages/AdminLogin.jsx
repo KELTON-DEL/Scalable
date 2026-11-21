@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhohttps://scalable-backend-h5su.onrender.com";
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function AdminLogin() {
   const navigate = useNavigate();

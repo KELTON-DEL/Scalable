@@ -48,7 +48,7 @@ const readStorage = (key, fallback) => {
 };
 
 export function Dashboard() {
-  const API_URL = import.meta.env.VITE_API_URL || "https://scalable-backend-h5su.onrender.com";
+  const API_URL = import.meta.env.VITE_API_URL || " http://localhost:5000";
 
   // Hydrate initial balance, investments, and transactions from localStorage so refreshes never wipe state.
   const [availableBalance, setAvailableBalance] = useState(() =>
