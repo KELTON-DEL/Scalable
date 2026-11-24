@@ -1,13 +1,16 @@
-
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import "./Auth.css";
-import logo from "../Images/logo.png"
-const API_URL = import.meta.env.VITE_API_URL || " https://scalable-backend-h5su.onrender.com";
+import "./Landing.css";
+import logo from "../Images/logo.png";
+
+const API_URL =
+  import.meta.env.VITE_API_URL || "https://scalable-backend-h5su.onrender.com";
 
 export default function Auth() {
+  const [showLanding, setShowLanding] = useState(true);
   const [activeTab, setActiveTab] = useState("signup");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -26,6 +29,23 @@ export default function Auth() {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+
+  const howItWorksRef = useRef(null);
+  const authSectionRef = useRef(null);
+
+  const openAuth = (tab = "signup") => {
+    setActiveTab(tab);
+    setMessage("");
+    setError("");
+    setShowLanding(false);
+    setTimeout(() => {
+      authSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 30);
+  };
+
+  const scrollToHowItWorks = () => {
+    howItWorksRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const switchTab = (tab) => {
     setActiveTab(tab);
@@ -58,11 +78,7 @@ export default function Auth() {
       return;
     }
 
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "application/pdf"
-    ];
+    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
 
     if (!allowedTypes.includes(identityDocument.type)) {
       setError("Upload your document as JPG, PNG or PDF.");
@@ -75,7 +91,6 @@ export default function Auth() {
     }
 
     const formData = new FormData();
-
     formData.append("firstName", firstName.trim());
     formData.append("lastName", lastName.trim());
     formData.append("email", email.trim());
@@ -88,14 +103,11 @@ export default function Auth() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        `${API_URL}/api/auth/register`,
-        formData
-      );
+      const response = await axios.post(`${API_URL}/api/auth/register`, formData);
 
       setMessage(
         response.data.message ||
-        "Registration submitted. Your identity is awaiting verification."
+          "Registration submitted. Your identity is awaiting verification."
       );
 
       setFirstName("");
@@ -108,7 +120,7 @@ export default function Auth() {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        "Registration failed. Please try again."
+          "Registration failed. Please try again."
       );
     } finally {
       setLoading(false);
@@ -123,38 +135,223 @@ export default function Auth() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        `${API_URL}/api/auth/login`,
-        {
-          email: loginEmail,
-          password: loginPassword
-        }
-      );
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
+        email: loginEmail,
+        password: loginPassword
+      });
 
-      // Save the authentication token returned by your backend.
       localStorage.setItem("token", response.data.token);
-
-      // Your backend should only issue a usable client session
-      // after checking the account's verification status.
       window.location.href = "/dashboard";
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        "Login failed. Check your email and password."
+          "Login failed. Check your email and password."
       );
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="auth-page">
-      <div className="auth-card">
+  if (showLanding) {
+    return (
+      <div className="landing-page">
+        <header className="landing-nav">
+          <div className="landing-brand">
+            <div className="landing-logo-box">
+              <img src={logo} alt="Scalable logo" />
+            </div>
+            <div>
+              <span className="landing-brand-name">Scalable</span>
+              <span className="landing-brand-tag">AssetWise</span>
+            </div>
+          </div>
 
+          <div className="landing-nav-actions">
+            <button
+              type="button"
+              className="landing-btn-ghost"
+              onClick={() => openAuth("login")}
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              className="landing-btn-primary"
+              onClick={() => openAuth("signup")}
+            >
+              Start Investing
+            </button>
+          </div>
+        </header>
+
+        <main className="landing-container">
+          <section className="landing-hero">
+            <span className="landing-badge">STRUCTURED PORTFOLIO GROWTH</span>
+            <h1>
+              Put Your Capital to Work With <span>Scalable</span>
+            </h1>
+            <p className="landing-hero-text">
+              Don&apos;t let idle cash lose value to inflation. Scalable helps you
+              build disciplined wealth through structured investment packages, clear
+              return projections, and transparent account tracking.
+            </p>
+
+            <div className="landing-hero-cta">
+              <button
+                type="button"
+                className="landing-btn-primary landing-btn-lg"
+                onClick={() => openAuth("signup")}
+              >
+                Create Free Account
+              </button>
+              <button
+                type="button"
+                className="landing-btn-secondary landing-btn-lg"
+                onClick={scrollToHowItWorks}
+              >
+                How Scalable Works
+              </button>
+            </div>
+
+            <div className="landing-highlights">
+              <div className="landing-highlight-item">
+                <strong>4+ Plans</strong>
+                <span>Gold, Silver, Oil &amp; Equity</span>
+              </div>
+              <div className="landing-highlight-item">
+                <strong>Verified</strong>
+                <span>Identity-checked client accounts</span>
+              </div>
+              <div className="landing-highlight-item">
+                <strong>7-Day Notice</strong>
+                <span>Clear withdrawal workflow</span>
+              </div>
+            </div>
+          </section>
+
+          <section ref={howItWorksRef} className="landing-section">
+            <div className="landing-section-head">
+              <span>HOW IT WORKS</span>
+              <h2>Three Simple Steps to Start Growing</h2>
+              <p>
+                Built to keep investing straightforward from day one—verify your
+                profile, choose a plan, and monitor your portfolio.
+              </p>
+            </div>
+
+            <div className="landing-steps-grid">
+              <article className="landing-step-card">
+                <div className="landing-step-num">01</div>
+                <h3>Create &amp; Verify Account</h3>
+                <p>
+                  Sign up with your details and upload a valid ID, passport, or
+                  driver&apos;s licence so your account can be verified securely.
+                </p>
+              </article>
+
+              <article className="landing-step-card">
+                <div className="landing-step-num">02</div>
+                <h3>Fund &amp; Pick a Package</h3>
+                <p>
+                  Deposit to your wallet balance and allocate funds into a
+                  package that matches your target duration and return goals.
+                </p>
+              </article>
+
+              <article className="landing-step-card">
+                <div className="landing-step-num">03</div>
+                <h3>Track &amp; Withdraw</h3>
+                <p>
+                  Watch active positions in your dashboard, check ledger history,
+                  and request withdrawals smoothly with a 7-day notice.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section className="landing-section">
+            <div className="landing-section-head">
+              <span>WHY INVEST NOW</span>
+              <h2>Why Smart Investors Choose Scalable</h2>
+              <p>
+                Consistent investing beats waiting on the sidelines. Start with an
+                amount that fits your budget and stay in control.
+              </p>
+            </div>
+
+            <div className="landing-benefits-grid">
+              <div className="landing-benefit-card">
+                <h3>Disciplined Wealth Building</h3>
+                <p>
+                  Lock-up periods encourage steady compounding instead of impulse
+                  spending, helping your money work on a clear schedule.
+                </p>
+              </div>
+
+              <div className="landing-benefit-card">
+                <h3>Clear ROI &amp; Ledger Visibility</h3>
+                <p>
+                  Preview estimated returns before committing funds and inspect
+                  every balance change in your transaction ledger.
+                </p>
+              </div>
+
+              <div className="landing-benefit-card">
+                <h3>Dedicated Support Access</h3>
+                <p>
+                  Reach support directly inside your dashboard whenever you need
+                  help with verification, deposits, or withdrawals.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section className="landing-final-cta">
+            <div>
+              <h2>Ready to Grow Your Portfolio?</h2>
+              <p>
+                Open your Scalable account in minutes or sign in if you already
+                have an active profile.
+              </p>
+            </div>
+            <div className="landing-hero-cta">
+              <button
+                type="button"
+                className="landing-btn-primary"
+                onClick={() => openAuth("signup")}
+              >
+                Create Account Now
+              </button>
+              <button
+                type="button"
+                className="landing-btn-ghost"
+                onClick={() => openAuth("login")}
+              >
+                Existing Client Login
+              </button>
+            </div>
+          </section>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div ref={authSectionRef} className="auth-page">
+      <div className="auth-card">
         <div className="auth-brand">
-          <div className="auth-logo">S </div>
+          <div className="auth-logo">
+            <img src={logo} alt="Scalable logo" />
+          </div>
           <h2>Scalable</h2>
           <p>Invest smarter. Grow together.</p>
+          <button
+            type="button"
+            className="landing-back-link"
+            onClick={() => setShowLanding(true)}
+          >
+            ← Back to How Scalable Works
+          </button>
         </div>
 
         <div className="auth-tabs">
@@ -320,10 +517,8 @@ export default function Auth() {
             </button>
 
             <p className="auth-terms">
-              Don't have an account?{" "}
-              <span onClick={() => switchTab("signup")}>
-                Create one
-              </span>
+              Don&apos;t have an account?{" "}
+              <span onClick={() => switchTab("signup")}>Create one</span>
             </p>
           </form>
         )}
@@ -331,4 +526,3 @@ export default function Auth() {
     </div>
   );
 }
-
